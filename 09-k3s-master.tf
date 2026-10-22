@@ -1,5 +1,5 @@
 locals {
-  cluster_name = "smartcloud-k3s"
+  cluster_name = "petercloud-k3s"
 }
 
 # Ubuntu 24.04 LTS (Canonical)

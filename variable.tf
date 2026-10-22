@@ -1,12 +1,12 @@
 variable "master_instance_type" {
   description = "k3s server needs >= 2 GB RAM"
   type        = string
-  default     = "t2.medium"
+  default     = "c7i-flex.large"
 }
 
 variable "worker_instance_type" {
   type    = string
-  default = "t2.small"
+  default = "t3.small"
 }
 
 variable "worker_count" {
@@ -18,17 +18,17 @@ variable "worker_count" {
 variable "s3_bucket" {
   description = "S3 bucket for the Terraform state, node-token and kubeconfig (same name as in the backend block)"
   type        = string
-  default     = "terrformstate-060647991200"
+  default     = "terrformstate-060647991203"
 }
 
 variable "argocd_hostname" {
   description = "DNS name for Argo CD. Point an A record for it at the master's public IP"
   type        = string
-  default     = "argocd.digitalwitch.online"
+  default     = "argocd.cloudwithpeter.site"
 }
 
 variable "letsencrypt_email" {
   description = "Email Let's Encrypt uses for certificate expiry notices"
   type        = string
-  default     = "chukwunonsosmartagbawo@gmail.com"
+  default     = "igbafes8@gmail.com"
 }

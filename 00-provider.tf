@@ -1,7 +1,8 @@
 terraform {
   # Remote state in S3 (backend blocks cannot use variables, so the bucket is written here)
+  # This tells Terraform to keep its state file in S3 instead of on your laptop. The state lives at k3s/terraform.tfstate in your bucket.
   backend "s3" {
-    bucket       = "terrformstate-060647991200"
+    bucket       = "terrformstate-060647991203"
     key          = "k3s/terraform.tfstate"
     region       = "us-west-1"
     encrypt      = true

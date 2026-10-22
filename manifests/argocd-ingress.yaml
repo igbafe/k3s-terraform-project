@@ -11,10 +11,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - arg.digitalwitch.online
+        - arg.cloudwithpeter.site 
       secretName: argocd-server-tls 
   rules:
-    - host: arg.digitalwitch.online
+    - host: arg.cloudwithpeter.site 
       http:
         paths:
           - path: /
