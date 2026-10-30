@@ -12,7 +12,7 @@ variable "worker_instance_type" {
 variable "worker_count" {
   description = "Workers are spread across the two availability zones (01 → AZ 1, 02 → AZ 2, 03 → AZ 1 …)"
   type        = number
-  default     = 1
+  default     = 4
 }
 
 variable "s3_bucket" {
@@ -24,7 +24,7 @@ variable "s3_bucket" {
 variable "argocd_hostname" {
   description = "DNS name for Argo CD. Point an A record for it at the master's public IP"
   type        = string
-  default     = "argocd.cloudwithpeter.site"
+  default     = "arg.cloudwithpeter.site"
 }
 
 variable "letsencrypt_email" {
