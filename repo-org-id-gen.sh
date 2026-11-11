@@ -4,14 +4,14 @@ read -rsp "Enter your GitHub PAT: " GH_TOKEN
 echo
 export GH_TOKEN
 
-ORG="digitalwitchdemo"
-REPO="onprem-k3s-k8s-cluster-with-terraform"
+ORG="igbafe"
+REPO="final-project-docker"
 
 # Get Organization ID
 ORG_RESPONSE=$(curl -fsSL \
   -H "Authorization: Bearer $GH_TOKEN" \
   -H "Accept: application/vnd.github+json" \
-  "https://api.github.com/orgs/$ORG")
+  "https://api.github.com/users/$ORG")
 
 ORG_ID=$(echo "$ORG_RESPONSE" | grep -m 1 '"id":' | sed 's/[^0-9]//g')
 

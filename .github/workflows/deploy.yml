@@ -1,78 +1,78 @@
-name: Deploy k3s cluster
+# name: Deploy k3s cluster
 
-on:
-  push:
-    branches: [main]
-    paths:
-      - "**.tf"
-      - "scripts/**"
-      - "charts/**"
-      - ".github/workflows/deploy.yml"
-  workflow_dispatch:
-    inputs:
-      action:
-        description: "What to do"
-        type: choice
-        options: [apply, destroy]
-        default: apply
+# on:
+#   push:
+#     branches: [main]
+#     paths:
+#       - "**.tf"
+#       - "scripts/**"
+#       - "charts/**"
+#       - ".github/workflows/deploy.yml"
+#   workflow_dispatch:
+#     inputs:
+#       action:
+#         description: "What to do"
+#         type: choice
+#         options: [apply, destroy]
+#         default: apply
 
-# Only one run at a time, so two runs never fight over the Terraform state lock
-concurrency:
-  group: terraform
-  cancel-in-progress: false
+# # Only one run at a time, so two runs never fight over the Terraform state lock
+# concurrency:
+#   group: terraform
+#   cancel-in-progress: false
 
-permissions:
-  id-token: write   # This is required for requesting the JWT from AWS
-  contents: read
+# permissions:
+#   id-token: write   # This is required for requesting the JWT from AWS
+#   contents: read
 
-jobs:
-  terraform:
-    runs-on: ubuntu-latest
-    env:
-      ACTION: ${{ github.event_name == 'push' && 'apply' || inputs.action }}
+# jobs:
+#   terraform:
+#     runs-on: ubuntu-latest
+#     env:
+#       ACTION: ${{ github.event_name == 'push' && 'apply' || inputs.action }}
 
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Check out code
+#         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_OID_ARN }}
-          aws-region: us-west-1
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           role-to-assume: ${{ secrets.AWS_OID_ARN }}
+#           aws-region: us-east-2
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.16.5
-          terraform_wrapper: false
+#       - name: Install Terraform
+#         uses: hashicorp/setup-terraform@v3
+#         with:
+#           terraform_version: 1.16.5
+#           terraform_wrapper: false
 
-      - name: Terraform init
-        run: terraform init -input=false
+#       - name: Terraform init
+#         run: terraform init -input=false
 
-      - name: Terraform format and validate
-        run: |
-          terraform fmt -check -recursive
-          terraform validate
+#       - name: Terraform format and validate
+#         run: |
+#           terraform fmt -check -recursive
+#           terraform validate
 
-      # # Step 1: network + servers. The Helm/Kubernetes providers need the kubeconfig
-      # # in S3, which only exists after the master is built.
-      # - name: Apply step 1 - network and servers
-      #   if: env.ACTION == 'apply'
-      #   run: >
-      #     terraform apply -input=false -auto-approve
-      #     -target=aws_s3_object.kubeconfig
-      #     -target=aws_instance.ec2_instance_worker
+#       # # Step 1: network + servers. The Helm/Kubernetes providers need the kubeconfig
+#       # # in S3, which only exists after the master is built.
+#       # - name: Apply step 1 - network and servers
+#       #   if: env.ACTION == 'apply'
+#       #   run: >
+#       #     terraform apply -input=false -auto-approve
+#       #     -target=aws_s3_object.kubeconfig
+#       #     -target=aws_instance.ec2_instance_worker
 
-      # # Step 2: everything else (NGINX, cert-manager, Argo CD)
-      # - name: Apply step 2 - add-ons
-      #   if: env.ACTION == 'apply'
-      #   run: terraform apply -input=false -auto-approve
+#       # # Step 2: everything else (NGINX, cert-manager, Argo CD)
+#       # - name: Apply step 2 - add-ons
+#       #   if: env.ACTION == 'apply'
+#       #   run: terraform apply -input=false -auto-approve
 
-      # - name: Show outputs
-      #   if: env.ACTION == 'apply'
-      #   run: terraform output
+#       # - name: Show outputs
+#       #   if: env.ACTION == 'apply'
+#       #   run: terraform output
 
-      # - name: Destroy everything
-      #   if: env.ACTION == 'destroy'
-      #   run: terraform destroy -input=false -auto-approve
+#       # - name: Destroy everything
+#       #   if: env.ACTION == 'destroy'
+#       #   run: terraform destroy -input=false -auto-approve

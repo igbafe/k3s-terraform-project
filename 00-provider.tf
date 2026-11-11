@@ -2,9 +2,9 @@ terraform {
   # Remote state in S3 (backend blocks cannot use variables, so the bucket is written here)
   # This tells Terraform to keep its state file in S3 instead of on your laptop. The state lives at k3s/terraform.tfstate in your bucket.
   backend "s3" {
-    bucket       = "terrformstate-060647991203"
+    bucket       = "final-project-130661417283"
     key          = "k3s/terraform.tfstate"
-    region       = "us-west-1"
+    region       = "us-east-2"
     encrypt      = true
     use_lockfile = true # S3-native state locking, no DynamoDB table needed
   }
@@ -62,5 +62,5 @@ provider "kubernetes" {
 # Credentials are NOT stored here: locally they come from `aws configure`,
 # in GitHub Actions from the AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY secrets.
 provider "aws" {
-  region = "us-west-1"
+  region = "us-east-2"
 }

@@ -70,7 +70,7 @@ Defaults in `variable.tf` are:
 | `argocd_hostname` | `argocd.digitalwitch.online` | Domain placed into the Argo CD Helm configuration and output URL. |
 | `letsencrypt_email` | `chukwunonsosmartagbawo@gmail.com` | Contact email passed to the local ClusterIssuer chart. |
 
-The AWS region is hard-coded as `us-west-1` in both the backend and AWS provider configuration. The bucket must already exist before `terraform init`; this repository does not create it. AWS credentials must permit backend state/lockfile access and management of EC2, VPC, security groups, routes, EIPs, NAT, key pairs, and S3 objects. The Terraform runner also needs SSH/SCP access to newly created EC2 public IPs. The GitHub workflow expects an `AWS_OID_ARN` Actions secret containing the role ARN and an AWS role trust policy that accepts the repository's GitHub OIDC identity.
+The AWS region is hard-coded as `us-east-2` in both the backend and AWS provider configuration. The bucket must already exist before `terraform init`; this repository does not create it. AWS credentials must permit backend state/lockfile access and management of EC2, VPC, security groups, routes, EIPs, NAT, key pairs, and S3 objects. The Terraform runner also needs SSH/SCP access to newly created EC2 public IPs. The GitHub workflow expects an `AWS_OID_ARN` Actions secret containing the role ARN and an AWS role trust policy that accepts the repository's GitHub OIDC identity.
 
 The `.terraform.lock.hcl` currently selects AWS provider 6.68.0, Helm 3.3.0, Kubernetes 2.38.0, local 2.9.1, and TLS 4.4.1, within the constraints declared in `00-provider.tf`.
 
